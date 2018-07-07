@@ -1,5 +1,16 @@
-# Dockerfile
-FROM python
+FROM python:3.6-alpine
 
-COPY config.ini candidate_answer.txt file_handle.py /src/
-CMD ["python", "/src/file_handle.py"]
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /src
+WORKDIR /src
+COPY ./backend/codexpose/requirements.txt /src
+
+RUN pip install -r requirements.txt
+
+COPY . /src
+
+RUN mkdir -p /var/log/django/codexpose/
+RUN touch /var/log/django/codexpose/codexpose.log
+
+CMD ["entrypoint.sh"]
