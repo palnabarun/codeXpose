@@ -25,6 +25,8 @@ services:
       - db
   frontend:
     build: ./frontend
+    environment:
+      BACKEND_HOST: backend
     volumes:
       - ./frontend:/app
     ports:
